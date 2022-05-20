@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}UserType index{% endblock %}
+{% block title %}User Types {% endblock %}
 
 {% block body %}
-    <h1>UserType index</h1>
+    <h1>User Types</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>#</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>actions</th>
@@ -17,7 +17,7 @@
         <tbody>
         {% for user_type in user_types %}
             <tr>
-                <td>{{ user_type.id }}</td>
+                <td>{{ loop.index }}</td>
                 <td>{{ user_type.name }}</td>
                 <td>{{ user_type.description }}</td>
                 <td>
