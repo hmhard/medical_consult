@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Patients List{% endblock %}
+
+{% block body %}
+    <h1>Patients List</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Full Name</th>
+              
+                <th>Gender</th>
+                <th>Birth Date</th>
+                <th>Registered At</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for patient in patients %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ patient.fullName }}</td>
+               
+                <td>{{ patient.gender }}</td>
+                <td>{{ patient.birthDate ? patient.birthDate|date('Y-m-d') : '' }}</td>
+                <td>{{ patient.registeredAt ? patient.registeredAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_patient_show', {'id': patient.id}) }}">show</a>
+                    <a href="{{ path('app_patient_edit', {'id': patient.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_patient_new') }}">Create new</a>
+{% endblock %}

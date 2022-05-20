@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ConsultationRequest{% endblock %}
+
+{% block body %}
+    <h1>Create new ConsultationRequest</h1>
+
+    {{ include('consultation_request/_form.html.twig') }}
+
+    <a href="{{ path('app_consultation_request_index') }}">back to list</a>
+{% endblock %}

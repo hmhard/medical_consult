@@ -1,0 +1,74 @@
+<nav class="mt-2">
+	<ul
+		class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+		<!-- Add icons to the links using the .nav-icon class
+				               with font-awesome or any other icon font library -->
+
+	
+
+
+
+{% if app.user.userType.id == 3 or app.user.userType.id == 2    %}		
+
+
+			<li class="nav-item">
+				<a href="{{path('group_index')}}" class="nav-link">
+					<i class="fa fa-users nav-icon"></i>
+					<p>Groups</p>
+				</a>
+			</li>
+			<li class="nav-item">
+				<a href="{{path('project_index')}}" class="nav-link">
+					<i class="fa fa-list nav-icon"></i>
+					<p>Project</p>
+				</a>
+			</li>
+			{% if app.user.userType.id == 3   %}
+				
+		
+		
+			<li class="nav-item">
+				<a href="{{path('user_index')}}" class="nav-link">
+					<i class="fa fa-user nav-icon"></i>
+					<p>User</p>
+				</a>
+			</li>
+			<li class="nav-item">
+				<a href="{{path('user_type_index')}}" class="nav-link">
+					<i class="fa fa-user-alt nav-icon"></i>
+					<p>User Type</p>
+				</a>
+			</li>
+			{% endif %}
+			{% endif %}
+			{% if app.user.userType.id == 1 %}
+				
+					<li class="nav-item">
+				<a href="{{path('student_index')}}" class="nav-link">
+					<i class="fa fa-user-alt nav-icon"></i>
+					<p>My Group</p>
+				</a>
+			</li>
+					<li class="nav-item">
+				<a href="{{path('student_index')}}" class="nav-link">
+					<i class="fa fa-user-alt nav-icon"></i>
+					<p>My Projects</p>
+				</a>
+			</li>
+			{% endif %}
+			<li class="nav-item">
+				<a href="{{path('app_logout')}}" class="nav-link">
+					<i class="fa fa-arrow-alt-circle-left nav-icon"></i>
+					<p>Logout</p>
+				</a>
+			</li>
+			
+
+
+
+			</ul>
+		</li>
+	
+
+
+</nav>

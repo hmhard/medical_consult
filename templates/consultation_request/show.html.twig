@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ConsultationRequest
+{% endblock %}
+
+{% block body %}
+	<h1>Consultation Request</h1>
+	<div class="card">
+		<div class="card-header">
+			<table class="table table-condensed table-small">
+				<tbody>
+					<tr>
+						<th>Patient Name</th>
+						<td>{{ consultation_request.patient }}</td>
+						<th>Gender</th>
+						<td>{{ consultation_request.patient.gender }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="card-body">
+			<table class="table">
+				<tbody>
+					<tr>
+						<th>Case Id</th>
+						<td>{{ "CNR-"~consultation_request.id }}</td>
+					</tr>
+					<tr>
+						<th>Description</th>
+						<td>{{ consultation_request.requestDescription }}
+                        <small class="text-bold mx-3">Request date: {{ consultation_request.requestedAt ? consultation_request.requestedAt|date('Y-m-d H:i:s') : '' }}</small>
+                        <button class=" btn btn-sm btn-info">{{ consultation_request.statusText }}</button>
+                        </td>
+                        
+					</tr>
+					
+					
+				</tbody>
+			</table>
+
+			<a href="{{ path('app_consultation_request_index') }}">back to list</a>
+
+			<a href="{{ path('app_consultation_request_edit', {'id': consultation_request.id}) }}">edit</a>
+
+			{{ include('consultation_request/_delete_form.html.twig') }}
+		{% endblock %}

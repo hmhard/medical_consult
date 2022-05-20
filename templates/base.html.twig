@@ -1,19 +1,213 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>{% block title %}
+		
+	{% endblock %}
+	| Plagiarism checker
+	</title>
+
+    <!-- Bootstrap CSS CDN -->
+    {# <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous"> #}
+    <!-- Our Custom CSS -->
+   <link rel="stylesheet" href="{{asset('assets/plugins/fontawesome/css/all.min.css')}}">
+		
+    <link rel="stylesheet" href="{{asset('assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+
+		<link rel="stylesheet" href="{{asset('assets/dist/css/adminlte.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/style.css')}}">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="{{asset('assets/plugins/select2/css/select2.min.css')}}">
+<link rel="stylesheet" href="{{asset('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+<link rel="stylesheet" href="{{asset('assets/styles/global.scss')}}">
+	
+    {% block stylesheets %}
+        
+    {% endblock %}
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h4>{{app.user}}</h4>
+            </div>
+
+            <ul class="list-unstyled components">
+                {# <p><a href="{{app.user.userType.id == 1 ? path('student'):path('home')}}"> Plagiarism checker</a></p> #}
+                {# <li class="active">
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <li>
+                            <a href="#">Home 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Home 2</a>
+                        </li>
+                        <li>
+                            <a href="#">Home 3</a>
+                        </li>
+                    </ul>
+                </li>
+				 #}
+               
+{% if app.user and (app.user.userType.id == 3 or app.user.userType.id == 2)    %}		
+
+                <li>
+                    <a href="{{path('group_index')}}">Group</a>
+                </li>
+                <li>
+                    <a href="{{path('project_index')}}">Project</a>
+                </li>
+                <li>
+                    <a href="{{path('project_session_index')}}">Project Session</a>
+                </li>
+                {% if app.user.usertype.id == 3 %}
+                    
+                <li>
+                    <a href="{{path('user_index')}}">User</a>
+                </li>
+                <li>
+                    <a href="{{path('user_type_index')}}">User Type</a>
+                </li>
+                {% endif %}
+                {% endif %}
+                {% if app.user and app.user.usertype.id == 1 %}
+                    
+              <li>
+                    <a href="{{path('student')}}">My Groups</a>
+                </li>
+                {# <li>
+                    <a href="{{path('project_index')}}">My Projects</a>
+                </li> #}
+                {% endif %}
+                <li>
+                    <a href="{{path('app_logout')}}">Logout</a>
+                </li>
+             
+              
+            </ul>
+
+        
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content">
+			
+            
+		<div class="h4">
+		{% block maintitle %}
+			
+		{% endblock %}
+		</div>
+
+
+{# 
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-align-left"></i>
+                        <span>Toggle Sidebar</span>
+                    </button>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#">Page</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Page</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Page</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Page</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </nav> #}
+<div class="row">
+							<div class="col-md-12">
+
+								{% for label, messages in app.flashes %}
+									{% for message in messages %}
+										<div class="row alert alert-{{ label }} alert-dismissible">
+											<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+											<h4 class="mr-4">
+												<i class="icon fa fa-{% if label=='success' %}check {% else %}ban {% endif %}"></i>
+												Alert!</h4>
+											{{ message }}
+
+										</div>
+
+
+									{% endfor %}
+								{% endfor %}
+
+							</div>
+						</div>
+{% block body %}
+	
+{% endblock %}
+        </div>
+    </div>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+	<script src="{{asset('assets/plugins/jquery/jquery.min.js')}}"></script>
+	<script src="{{asset('assets/plugins/toastr/toastr.min.js')}}"></script>
+		
+			<script src="{{asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    		<script src="{{asset('assets/plugins/select2/js/select2.full.min.js')}}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>
+    <script>
+    $(function() {
+        //Initialize Select2 Elements
+        $('.select2').select2()
+      
+            //Initialize Select2 Elements
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        })
+        $('#dteofBirth').datepicker({
+            format: 'mm-dd-yyyy'
+        })
+          $('#dteofBirth').datepicker({
+            format: 'mm-dd-yyyy'
+        }) 
+         $(".user_phone").mask("99999?99999");
+    }); 
+</script>
+    {% block javascripts %}
+        
+    {% endblock %}
+</body>
+
 </html>

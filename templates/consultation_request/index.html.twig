@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ConsultationRequest index{% endblock %}
+
+{% block body %}
+    <h1>ConsultationRequest index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>RequestDescription</th>
+                <th>RequestedAt</th>
+                <th>Status</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for consultation_request in consultation_requests %}
+            <tr>
+                <td>{{ consultation_request.id }}</td>
+                <td>{{ consultation_request.requestDescription }}</td>
+                <td>{{ consultation_request.requestedAt ? consultation_request.requestedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ consultation_request.status }}</td>
+                <td>
+                    <a href="{{ path('app_consultation_request_show', {'id': consultation_request.id}) }}">show</a>
+                    <a href="{{ path('app_consultation_request_edit', {'id': consultation_request.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_consultation_request_new') }}">Create new</a>
+{% endblock %}

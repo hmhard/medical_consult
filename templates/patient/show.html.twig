@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Patient
+{% endblock %}
+
+{% block body %}
+	<h1>Patient</h1>
+	<div class="card">
+		<div class="card-header">
+			<tr>
+				<th>Name</th>
+				<td>{{ patient.firstName }}</td>
+			</tr>
+		</div>
+		<div class="card-body">
+			<table class="table">
+				<tbody>
+					<tr>
+						<th>Patient Id</th>
+						<td>{{ "CNR-"~patient.id }}</td>
+
+						<th>Gender</th>
+						<td>{{ patient.gender }}</td>
+					</tr>
+					<tr>
+						<th>Birth Date</th>
+						<td>{{ patient.birthDate ? patient.birthDate|date('Y-m-d') : '' }}</td>
+
+						<th>Registered At</th>
+						<td>{{ patient.registeredAt ? patient.registeredAt|date('Y-m-d H:i:s') : '' }}</td>
+					</tr>
+				</tbody>
+			</table>
+
+
+		</div>
+		<div class="card-footer">
+			<a class="btn btn-primary float-right" href="{{ path('app_patient_index') }}">back to list</a>
+
+			<a class="btn btn-warning mx-3 float-right" href="{{ path('app_patient_edit', {'id': patient.id}) }}">edit</a>
+
+			{{ include('patient/_delete_form.html.twig') }}
+		</div>
+	</div>
+
+	<div class="text-bold my-3 text-primary h2">Patient Case History</div>
+    <div class="card">
+	
+		<div class="card-body">
+			<table class="table">
+				<tbody>
+                {% for case in patient.consultationRequests %}
+                    
+					<tr>
+						<th>{{case.caseCategory}}</th>
+						<td>{{ case.requestDescription }}</td>
+
+					
+					
+					<td>
+                  
+			<a class="btn btn-secondary mx-3 float-right" href="{{ path('app_consultation_request_show', {'id': case.id}) }}">show</a>
+
+			{{ include('patient/_delete_form.html.twig') }}
+					</td>
+					</tr>
+                {% endfor %}
+				
+				</tbody>
+			</table>
+
+
+		</div>
+		
+	</div>
+{% endblock %}

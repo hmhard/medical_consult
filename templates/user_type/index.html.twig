@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}UserType index{% endblock %}
+
+{% block body %}
+    <h1>UserType index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user_type in user_types %}
+            <tr>
+                <td>{{ user_type.id }}</td>
+                <td>{{ user_type.name }}</td>
+                <td>{{ user_type.description }}</td>
+                <td>
+                    <a href="{{ path('app_user_type_show', {'id': user_type.id}) }}">show</a>
+                    <a href="{{ path('app_user_type_edit', {'id': user_type.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_user_type_new') }}">Create new</a>
+{% endblock %}
