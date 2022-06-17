@@ -14,10 +14,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class PatientController extends AbstractController
 {
     #[Route('/', name: 'app_patient_index', methods: ['GET'])]
-    public function index(PatientRepository $patientRepository): Response
+    public function index(PatientRepository $patientRepository, Request $request): Response
     {
+        
         return $this->render('patient/index.html.twig', [
-            'patients' => $patientRepository->findAll(),
+            'patients' => $patientRepository->getData(["search"=>$request->query->get('q')]),
         ]);
     }
 

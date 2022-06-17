@@ -1,16 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ConsultationRequest index{% endblock %}
+{% block title %}Consultation List{% endblock %}
 
 {% block body %}
-    <h1>ConsultationRequest index</h1>
+    <h2>Consultation List</h2>
 
+    <div class="card">
+    <div class="card-header">
+   
+    {% if not hasActiveRequest() %}
+    
+     <a class="btn btn-info float-right" href="{{ path('app_consultation_request_new') }}">Consult new</a>
+    {% endif %}
+
+    </div>
+    <div class="card-body">
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>RequestDescription</th>
-                <th>RequestedAt</th>
+                <th>#</th>
+                <th>Patient</th>
+                <th>Request Description</th>
+                <th>Requested At</th>
                 <th>Status</th>
                 <th>actions</th>
             </tr>
@@ -18,13 +29,14 @@
         <tbody>
         {% for consultation_request in consultation_requests %}
             <tr>
-                <td>{{ consultation_request.id }}</td>
+                <td>{{ loop.index}}</td>
+                <td>{{ consultation_request.patient }}</td>
                 <td>{{ consultation_request.requestDescription }}</td>
                 <td>{{ consultation_request.requestedAt ? consultation_request.requestedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ consultation_request.status }}</td>
+                <td ><span class="badge badge-info">{{ consultation_request.status!=4 ? "Active":"Not active" }}</span></td>
                 <td>
-                    <a href="{{ path('app_consultation_request_show', {'id': consultation_request.id}) }}">show</a>
-                    <a href="{{ path('app_consultation_request_edit', {'id': consultation_request.id}) }}">edit</a>
+                    <a class="btn btn-primary" href="{{ path('app_consultation_request_show', {'id': consultation_request.id}) }}">show</a>
+                    {# <a class="btn btn-warning" href="{{ path('app_consultation_request_edit', {'id': consultation_request.id}) }}">edit</a> #}
                 </td>
             </tr>
         {% else %}
@@ -35,5 +47,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_consultation_request_new') }}">Create new</a>
-{% endblock %}
+   {% endblock %}

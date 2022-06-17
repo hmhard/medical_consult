@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PaymentFee index{% endblock %}
+
+{% block body %}
+
+    <div class="card">
+    <div class="card-header">
+    <div class="card-title">Payment  List </div>
+
+    </div>
+    <div class="card-body">
+    <div class="col-12 col-sm-6 col-md-4">
+						<div class="info-box mb-3">
+							<span class="info-box-icon bg-info elevation-1">
+								<i class="fas fa-list"></i>
+							</span>
+
+							<div class="info-box-content">
+								<span class="info-box-text">Total Revenue</span>
+								<span class="info-box-number">{{total_price}}ETB</span>
+							</div>
+							<!-- /.info-box-content -->
+						</div>
+						<!-- /.info-box -->
+					</div>
+					<!-- /.col -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Patient</th>
+                <th>RFN</th>
+                <th>Total Price</th>
+                <th>is Processed </th>
+                <th>Payment Date</th>
+             
+                {# <th>actions</th> #}
+            </tr>
+        </thead>
+        <tbody>
+        {% for consultation in consultation_requests %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ consultation.patient }}</td>
+                <td>{{ consultation.rfn }}</td>
+                {% set paymentFee = consultation.caseCategory.paymentFee %}
+                <td>{{(paymentFee.price * (paymentFee.taxRate / 100)) + paymentFee.price}}ETB</td>
+               
+                <td ><span class="badge badge-info">{{ consultation.status ? "Yes":"No" }}</span></td>
+              
+                <td>{{ consultation.requestedAt|date('Y-m-d h:iA') }}</td>
+                <td>
+                    {# <a href="{{ path('app_payment_fee_show', {'id': payment_fee.id}) }}">show</a> #}
+                    {# <a href="{{ path('app_payment_fee_edit', {'id': payment_fee.id}) }}">edit</a> #}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    </div>
+
+{% endblock %}

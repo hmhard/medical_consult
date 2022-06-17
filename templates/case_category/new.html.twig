@@ -1,11 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New CaseCategory{% endblock %}
+{% block title %}New Case Category{% endblock %}
 
 {% block body %}
-    <h1>Create new CaseCategory</h1>
+    <h1>Register new Case Category</h1>
+<div class="card">
+<div class="card-body">
 
     {{ include('case_category/_form.html.twig') }}
 
-    <a href="{{ path('app_case_category_index') }}">back to list</a>
+    <a  href="{{ path('app_case_category_index') }}">back to list</a>
 {% endblock %}

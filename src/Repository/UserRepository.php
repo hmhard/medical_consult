@@ -69,6 +69,16 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->add($user, true);
     }
 
+    public function getCount($filter = [])
+    {
+        $qb = $this->createQueryBuilder('u');
+        if (isset($filter['active']))
+            $qb->andWhere('u.isActive = :status')
+                ->setParameter('status', 1);
+
+        return $qb->select('count(u.id)')->getQuery()
+            ->getSingleScalarResult();
+    }
     //    /**
     //     * @return User[] Returns an array of User objects
     //     */

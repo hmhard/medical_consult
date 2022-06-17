@@ -36,10 +36,18 @@ class Patient
     #[ORM\OneToMany(mappedBy: 'patient', targetEntity: ConsultationRequest::class)]
     private $consultationRequests;
 
+    #[ORM\OneToOne(inversedBy: 'patient', targetEntity: User::class, cascade: ['persist', 'remove'])]
+    private $user;
+
+    #[ORM\OneToMany(mappedBy: 'patient', targetEntity: Appointment::class)]
+    private $appointments;
+
+    
     public function __construct()
     {
         $this->consultationRequests = new ArrayCollection();
         $this->registeredAt=new \DateTime();
+        $this->appointments = new ArrayCollection();
        
     }
 
@@ -56,7 +64,7 @@ class Patient
     }
     public function __toString()
     {
-        return $this->firstName." ".$this->middleName;
+        return ucwords($this->firstName." ".$this->middleName);
     }
     public function getFirstName(): ?string
     {
@@ -159,4 +167,48 @@ class Patient
 
         return $this;
     }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Appointment>
+     */
+    public function getAppointments(): Collection
+    {
+        return $this->appointments;
+    }
+
+    public function addAppointment(Appointment $appointment): self
+    {
+        if (!$this->appointments->contains($appointment)) {
+            $this->appointments[] = $appointment;
+            $appointment->setPatient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAppointment(Appointment $appointment): self
+    {
+        if ($this->appointments->removeElement($appointment)) {
+            // set the owning side to null (unless already changed)
+            if ($appointment->getPatient() === $this) {
+                $appointment->setPatient(null);
+            }
+        }
+
+        return $this;
+    }
+
+   
 }

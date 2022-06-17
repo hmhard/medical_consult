@@ -3,44 +3,367 @@
 {% block title %}ConsultationRequest
 {% endblock %}
 
+{% block styles %}
+<link
+        href=
+"https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css"
+        rel="stylesheet">
+	<style>
+		.whatever {
+			background-color: #007bff;
+			display: inline-block;
+
+		}
+
+		#checkboxes input[type=radio] {
+			display: none;
+		}
+
+		#checkboxes input[type=radio]:checked + .whatever {
+			background-color: green;
+		}
+	</style>
+{% endblock %}
 {% block body %}
-	<h1>Consultation Request</h1>
-	<div class="card">
-		<div class="card-header">
-			<table class="table table-condensed table-small">
-				<tbody>
-					<tr>
-						<th>Patient Name</th>
-						<td>{{ consultation_request.patient }}</td>
-						<th>Gender</th>
-						<td>{{ consultation_request.patient.gender }}</td>
-					</tr>
-				</tbody>
-			</table>
+
+	<section class="content">
+		<div class="container-fluid">
+			<div class="row">
+				<div
+					class="col-md-4">
+
+					<!-- Profile Image -->
+					<div class="card card-primary card-outline">
+						<div class="card-body box-profile">
+							<div class="text-center">
+								<img class="profile-user-img img-fluid img-circle" src="{{asset('assets/dist/img/avatar5.png')}}" alt="User profile picture">
+							</div>
+
+							<h3 class="profile-username text-center">{{consultation_request.patient}}</h3>
+
+							{# <p class="text-muted text-center">{{consultation_request.patient.phone}}</p> #}
+
+							<ul class="list-group list-group-unbordered mb-3">
+								<li class="list-group-item">
+									<b>Gender</b>
+									<a class="float-right">{{consultation_request.patient.gender}}</a>
+								</li>
+								<li class="list-group-item">
+									<b>Birth Date</b>
+									<a class="float-right">{{consultation_request.patient.birthDate|date('Y-m-d')}}</a>
+								</li>
+								<li class="list-group-item">
+									<b>Case ID</b>
+									<a class="float-right">{{"CNR-"~consultation_request.id}}</a>
+								</li>
+
+							</ul>
+
+							{% if consultation_request.status !=4  %}
+								{% if  app.user == consultation_request.patient.user %}
+									<form class="" method="post" onsubmit="return confirm('Are you sure you want to close this case?');">
+										<input type="hidden" name="close_case" value="true"/>
+										<button href="#" class="btn btn-danger btn-block">
+											<b>Close case</b>
+										</button>
+									</form>
+								{% endif %}
+								<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modal-appoint">
+									Appointment
+								</button>
+							{% else %}
+								<button href="#" class="btn btn-danger btn-block">
+									<b>Case closed</b>
+								</button>
+							{% endif %}
+						</div>
+						<!-- /.card-body -->
+					</div>
+					<!-- /.card -->
+
+
+				</div>
+				<!-- /.col -->
+				<div class="col-md-8">
+					<div class="card">
+						<div class="card-header p-2">
+							<ul class="nav nav-pills">
+								<li class="nav-item">
+									<a class="nav-link active" href="#activity" data-toggle="tab">Conversation</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="#feedbacks" data-toggle="tab">Feedback</a>
+								</li>
+							</ul>
+						</div>
+						<!-- /.card-header -->
+						<div class="card-body">
+							<div class="tab-content">
+								<div class="active tab-pane" id="activity">
+
+									<div class="post">
+										<div class="text-bold">Case description:</div>
+										<!-- /.user-block -->
+										<p>
+											{{consultation_request.requestDescription}}
+											<button class=" btn btn-sm btn-info">{{ consultation_request.statusText }}</button>
+
+										</p>
+										<div>
+											<strong>Requested At:</strong>
+											{{consultation_request.requestedAt|date('F d- Y, h:i:sA')}}
+										</div>
+
+
+									</div>
+									<!-- /.post -->
+									<!-- Post -->
+									{% for conversation in consultation_request.consultationConversations %}
+
+
+										<div class="post">
+											<div class="user-block">
+												<img class="img-circle img-bordered-sm" src="{{asset('assets/dist/img/avatar2.png')}}" alt="user image">
+												<span class="username">
+													{% if conversation.sentBy == app.user  %}
+
+
+														<a href="#">You</a>
+													{% else %}
+
+														<a href="#">{{conversation.sentBy}}</a>
+
+													{% endif %}
+													<a href="#" class="float-right btn-tool">
+														<i class="fas fa-times"></i>
+													</a>
+												</span>
+												<span class="description">Sent at -
+													{{conversation.sentAt|date('F d- Y, h:i:sA')}}</span>
+											</div>
+											<!-- /.user-block -->
+											<p>
+												{{conversation.content}}
+											</p>
+
+
+										</div>
+										<!-- /.post -->
+
+
+									{% endfor %}
+
+									{% if consultation_request.isToday and consultation_request.status !=4 and  (consultation_request.patient.user == app.user or  consultation_request.assignedTo.user == app.user) %}
+										<form method="post" class="form-horizontal">
+											<div class="input-group input-group-sm mb-0">
+
+												<input type="hidden" name="response" value="true"/>
+												<textarea id="description" required minlength="10" name="response_description" class="form-control"></textarea>
+												<div class="input-group-append">
+													<button type="submit" class="btn btn-success">Send</button>
+												</div>
+											</div>
+										</form>
+									{% endif %}
+									<!-- /.post -->
+
+
+								</div>
+
+
+								<div class="tab-pane" id="feedbacks">
+								
+								{% if consultation_request.patient.user == app.user %}
+									
+								
+									<form class="form-horizontal" method="post">
+										<div class="form-group row">
+											<label for="inputFeedback" class="col-sm-2 col-form-label">Feedback</label>
+											<div class="col-sm-10">
+											<input type="hidden" name="set-feedback" value="true"/>
+												<textarea rows="7" name="input-feedback" class="form-control" id="inputFeedback" placeholder="your feedback here" required></textarea>
+											</div>
+										</div>
+
+
+										<div class="form-group row">
+											<div class="offset-sm-2 col-sm-10">
+												<button type="submit" class="btn btn-danger float-right">Submit</button>
+											</div>
+										</div>
+									</form>
+									{% endif %}
+								</div>
+								<!-- /.tab-pane -->
+							</div>
+							<!-- /.tab-content -->
+						</div>
+						<!-- /.card-body -->
+					</div>
+					<!-- /.nav-tabs-custom -->
+				</div>
+				<!-- /.col -->
+			</div>
+			<!-- /.row -->
 		</div>
-		<div class="card-body">
-			<table class="table">
-				<tbody>
-					<tr>
-						<th>Case Id</th>
-						<td>{{ "CNR-"~consultation_request.id }}</td>
-					</tr>
-					<tr>
-						<th>Description</th>
-						<td>{{ consultation_request.requestDescription }}
-                        <small class="text-bold mx-3">Request date: {{ consultation_request.requestedAt ? consultation_request.requestedAt|date('Y-m-d H:i:s') : '' }}</small>
-                        <button class=" btn btn-sm btn-info">{{ consultation_request.statusText }}</button>
-                        </td>
-                        
-					</tr>
+		<!-- /.container-fluid -->
+	</section>
+
+	<div class="modal fade" id="modal-appoint">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<form method="post">
+					<div class="modal-header">
+
+						<h4 class="modal-title">Appointments</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<table class="table table-bordered table-condensed">
+							<tbody>
+							{% set has_appointment = false %}
+								{% for appointment in consultation_request.appointments %}
+							{% set has_appointment = true %}
+									<tr>
+										<td>{{ appointment.appointmentDate ? appointment.appointmentDate|date('Y-m-d H:iA') : '' }}({{ appointment.appointmentDate ? appointment.appointmentDate|ago }})</td>
+										<td>{{appointment.description}}</td>
+										{% if appointment.status==1 %}
+										<td><span class="badge badge-info">Approved</span></td>
+										{% elseif appointment.status==2 %}
+											
+										<td><span class="badge badge-info">Rejected</span></td>
+										{% else %}
+										<td><span class="badge badge-info">Not Approved</span></td>
+										{% endif %}
+										<td>{{appointment.doctor}}</td>
+
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+						{% if  app.user == consultation_request.patient.user and not has_appointment %}
+								
+						<h4 class="modal-title">Create New</h4>
+
+
+						<div class="form-group row">
+							<label for="inputName" class="col-sm-2 col-form-label">Doctor</label>
+							<div class="col-sm-10">
+
+								<div id="checkboxes">
+									{% for doctor in case_category.doctors %}
+
+
+										<input type="radio" required name="doctor" value="{{doctor.id}}" id="r{{doctor.id}}"/>
+										<label class="whatever col-md-4" for="r{{doctor.id}}">
+
+											<div
+												class="">
+
+												<!-- Profile Image -->
+												<div class="card card-primary card-outline">
+													<div class="card-body box-profile">
+														<div class="text-center">
+															<img class="profile-user-img img-fluid img-circle" src="{{asset('assets/dist/img/doc.webp')}}" alt="User profile picture">
+														</div>
+
+														<h3 class="profile-username text-center">{{doctor}}</h3>
+
+														<p class="text-muted text-center">{{doctor.specialization}}</p>
+
+														<ul class="list-group list-group-unbordered mb-3">
+															<li class="list-group-item">
+																<b>Specialization:-</b>
+																<a class="float-right">{{doctor.specialization}}</a>
+															</li>
+															<li class="list-group-item">
+																<b>Available Hr:-</b>
+																<a class="float-right">{{doctor.availableTimeFrom|date('h:i A')~' - '~doctor.availableTimeTo|date('h:i A')}}</a>
+															</li>
+															<p class="text-muted text-center">
+																<b>Available days:-</b>
+
+																{{doctor.monday ? "Mon,":""}}
+																{{doctor.tuesday ? "Tue,":""}}
+																{{doctor.wednesday ? "Wed,":""}}
+																{{doctor.thursday ? "Thur":""}}
+																{{doctor.friday ? "Fri":""}}
+																{{doctor.saturday ? "Sat":""}}
+																{{doctor.sunday ? "Sun":""}}
+															</p>
+
+
+														</ul>
+
+														{# <button type="button" class="btn btn-primary btn-block disabled"><b>Select</b></button> #}
+													</div>
+													<!-- /.card-body -->
+												</div>
+												<!-- /.card -->
+
+
+											</div>
+
+										</label>
+
+									{% endfor %}
+								</div>
+
+
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="inputName" class="col-sm-2 col-form-label">Date</label>
+							<div class="col-sm-4">
+								<input hidden name="appoint" value="true"></input>
+							<input type="text" name="date" class="form-control" id="inputDate" min="{{ "now"|date("Y-m-d") }}" required></input>
 					
-					
-				</tbody>
-			</table>
+						
+							</div>
+							<label for="inputTime" class="col-sm-1 col-form-label">Time</label>
+							<div class="col-sm-4">
+								<input hidden name="appoint" value="true"></input>
+							<input type="text" name="time" class="form-control" id="inputTime"  required></input>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="inputCaption" class="col-sm-2 col-form-label">Description</label>
+					<div class="col-sm-10">
+						<textarea class="form-control" id="inputcaption" placeholder="Description"></textarea>
+					</div>
+				</div>
 
-			<a href="{{ path('app_consultation_request_index') }}">back to list</a>
 
-			<a href="{{ path('app_consultation_request_edit', {'id': consultation_request.id}) }}">edit</a>
+			</div>
+			<div class="modal-footer justify-content-between">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button type="submit" class="btn btn-primary">Create</button>
+			</div>
+			{% endif %}
+		</form>
 
-			{{ include('consultation_request/_delete_form.html.twig') }}
-		{% endblock %}
+	</div>
+	<!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog --></div><!-- /.modal -->{% endblock %}
+{% block scripts %}
+<script type="text/javascript" src="{{asset('assets/plugins/moment/moment.min.js')}}">
+    </script>
+<script src=
+"https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js">
+        </script>
+
+<script type="text/javascript">
+{# let dateInput = document.getElementById("inputDate"); #}
+{# dateInput.min =  new Date().toISOString().slice(0, -8); #}
+ $('#inputDate').datetimepicker({
+            format: 'MM/DD/YYYY', 
+			 minDate:moment(),
+        });
+ $('#inputTime').datetimepicker({
+            format: 'hh:mm a'
+        });
+</script>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Appointment List
+{% endblock %}
+
+{% block body %}
+	<h1>Appointments List</h1>
+
+	<div class="card">
+		<div class="card-body">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Patient</th>
+						<th>Doctor</th>
+						<th>Case</th>
+						<th>Date</th>
+
+						<th>Is Made</th>
+						<th>actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for appointment in appointments %}
+						<tr>
+							<td>{{ loop.index }}</td>
+							<td>{{ appointment.patient }}</td>
+							<td>{{ appointment.doctor }}</td>
+							<td>{{ appointment.appointmentCase }}</td>
+							<td>{{ appointment.appointmentDate ? appointment.appointmentDate|date('Y-m-d H:iA') : '' }}({{ appointment.appointmentDate ? appointment.appointmentDate|ago }})</td>
+							<td>
+								<span class="badge badge-info">{{ appointment.isMade ? 'Yes' : 'No' }}</span>
+							</td>
+							<td>
+								{% if  appointment.status == 0  %}
+									{% if appointment.doctor.user == app.user   %}
+
+										<form method="post">
+											<input type="hidden" name="approve-appointment" value="true"/>
+											<input type="hidden" name="appointment" value="{{appointment.id}}"/>
+											<button type="submit" name="approve" value="approve" class="btn btn-warning btn-sm">Approve</button>
+											<button type="submit" name="reject" value="reject" class="btn btn-danger  btn-sm">Reject</button>
+										</form>
+									
+									{% else %}
+										<span class="badge badge-secondary">Not approved yet</span>
+									{% endif %}
+
+								{% elseif appointment.status == 1 %}
+									<span class="badge badge-secondary">Approved</span>
+								{% else %}
+									<span class="badge badge-danger">Rejected</span>
+								{% endif %}
+							</td>
+							<td>
+
+								<a class="btn btn-primary" href="{{ path('app_consultation_request_show', {'id': appointment.appointmentCase.id}) }}">show</a>
+								{# <a href="{{ path('app_appointment_edit', {'id': appointment.id}) }}">edit</a> #}
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="4">no records found</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	{# <a href="{{ path('app_appointment_new') }}">Create new</a> #}
+{% endblock %}

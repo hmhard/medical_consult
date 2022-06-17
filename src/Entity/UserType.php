@@ -8,6 +8,14 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: UserTypeRepository::class)]
 class UserType
 {
+    const TYPE=[
+        1=>"Admin",
+        2=>"Doctor",
+        3=>"Patient",
+        4=>"Finance",
+       
+    ];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]

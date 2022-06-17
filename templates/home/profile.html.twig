@@ -1,0 +1,154 @@
+{% extends "base.html.twig" %}
+{% block styles %}
+	<style>
+		.whatever {
+			background-color: lightgrey;
+			color: white;
+			display: inline-block;
+			width: 100px;
+			height: 50px;
+		}
+
+		#checkboxes label {
+			text-align: center;
+			vertical-align: middle;
+			padding: 5px;
+			margin: 2px 1px;
+		}
+		#checkboxes input[type=checkbox] {
+			display: none;
+		}
+
+		#checkboxes input[type=checkbox]:checked + .whatever {
+			background-color: #007bff;
+		}
+	</style>
+{% endblock %}
+{% block body %}
+
+	<div class="row">
+		<div
+			class="col-md-3">
+
+			<!-- Profile Image -->
+			<div class="card card-primary card-outline">
+				<div class="card-body box-profile">
+					<div class="text-center">
+						<img class="profile-user-img img-fluid img-circle" src="../../dist/img/user4-128x128.jpg" alt="User profile picture">
+					</div>
+
+					<h3 class="profile-username text-center">{{user}}</h3>
+
+					<p class="text-muted text-center">{{user.doctor?user.doctor.specialization:"Patient"}}</p>
+
+					<ul class="list-group list-group-unbordered mb-3">
+						<li class="list-group-item">
+							<b>Consults</b>
+							<a class="float-right">100</a>
+						</li>
+						<li class="list-group-item">
+							<b>Stars</b>
+							<a class="float-right">4.5</a>
+						</li>
+
+					</ul>
+
+					<a href="#" class="btn btn-primary btn-block">
+						<b>About</b>
+					</a>
+				</div>
+				<!-- /.card-body -->
+			</div>
+			<!-- /.card -->
+
+
+		</div>
+
+
+		<div class="col-md-9">
+			<div class="card">
+				<div class="card-body">
+					{% if user.doctor %}
+
+
+						<form
+							class="form-horzontal" action="#" method="post" onsubmit="return confirm('Are you sure?');">
+							{# <div class="form-group row">
+														<label for="inputName" class="col-sm-2 col-form-label">Name</label>
+														<div class="col-sm-10">
+															<input type="email" class="form-control" id="inputName" placeholder="Name">
+														</div>
+													</div> #}
+							<div class="form-group row">
+								<input type="hidden" class="form-control" placeholder="Name" name="update-profile" value="true">
+								<label for="" class="col-sm-2 col-form-label">Weekly Schedules</label>
+								<div class="col-sm-10">
+									<div id="checkboxes">
+										{% set doctor = user.doctor %}
+										<input type="checkbox" name="monday" value="1" id="r1" {{doctor.monday?"checked":""}}/>
+										<label class="whatever" for="r1">Monday</label>
+										<input type="checkbox" name="tuesday" value="2" id="r2" {{doctor.tuesday?"checked":""}}/>
+										<label class="whatever" for="r2">Tuesday</label>
+										<input type="checkbox" name="wednesday" value="3" id="r3" {{doctor.wednesday?"checked":""}}/>
+										<label class="whatever" for="r3">Wednesday</label>
+										<input type="checkbox" name="thursday" value="4" id="r4" {{doctor.thursday?"checked":""}}/>
+										<label class="whatever" for="r4">Thursday</label>
+										<input type="checkbox" name="friday" value="5" id="r5" {{doctor.friday?"checked":""}}/>
+										<label class="whatever" for="r5">Friday</label>
+										<input type="checkbox" name="saturday" value="6" id="r6" {{doctor.saturday?"checked":""}}/>
+										<label class="whatever" for="r6">Saturday</label>
+										<input type="checkbox" name="sunday" value="7" id="r7" {{doctor.sunday?"checked":""}}/>
+										<label class="whatever" for="r7">Sunday</label>
+									</div>
+								</div>
+							</div>
+							<div class="h4">Available Time</div>
+							<div class="form-group row">
+								<label for="time-from" class="col-sm-2 col-form-label">
+									from:</label>
+								<div class="col-sm-4">
+									<input type="time" class="form-control" id="time-from" name="time-from" placeholder="Name" value="{{doctor.availableTimeFrom|date('h:i')}}" required>
+								</div>
+								<label for="time-to" class="col-sm-2 col-form-label">To:</label>
+
+								<div class="col-sm-4">
+									<input type="time" class="form-control" id="time-to" name="time-to" placeholder="Name" value="{{doctor.availableTimeTo|date('h:i')}}" required>
+								</div>
+							</div>
+							<button type="submit" class="btn btn-primary float-right">Save</button>
+						</form>
+					{% endif %}
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-body">
+
+
+					<form class="form-horzontal" action="#" method="post" onsubmit="return confirm('Are you sure?');">
+						<div class="form-group row">
+							<label for="inputcurrent-password" class="col-sm-3 col-form-label">Current Password</label>
+							<div class="col-sm-9">
+								<input type="hidden" name="reset" value="true">
+								<input type="password" name="current-password" class="form-control" id="inputcurrent-password" required placeholder="current password">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="inputnew-password" class="col-sm-3 col-form-label">New Password</label>
+							<div class="col-sm-9">
+								<input type="password" name="new-password" class="form-control" id="inputnew-password" required placeholder="new password">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="inputConfirm-password" class="col-sm-3 col-form-label">Confirm Password</label>
+							<div class="col-sm-9">
+								<input type="password" name="confirm-password" class="form-control" id="inputConfirm-password" required placeholder="Confirm password">
+							</div>
+						</div>
+						<button type="submit"  class="btn btn-primary float-right">Reset</button>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -8,8 +8,8 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
+                <th>IDNo</th>
+                <td>{{"USR-"~ user.id }}</td>
             </tr>
             <tr>
                 <th>Email</th>
@@ -19,28 +19,18 @@
                 <th>Roles</th>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
             </tr>
+            
             <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
+                <th>Full Name</th>
+                <td>{{ user.fullName }}</td>
             </tr>
-            <tr>
-                <th>FirstName</th>
-                <td>{{ user.firstName }}</td>
-            </tr>
-            <tr>
-                <th>MiddleName</th>
-                <td>{{ user.middleName }}</td>
-            </tr>
-            <tr>
-                <th>LastName</th>
-                <td>{{ user.lastName }}</td>
-            </tr>
+         
             <tr>
                 <th>Gender</th>
                 <td>{{ user.gender }}</td>
             </tr>
             <tr>
-                <th>IsActive</th>
+                <th>Is Active</th>
                 <td>{{ user.isActive ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
@@ -48,7 +38,7 @@
                 <td>{{ user.phone }}</td>
             </tr>
             <tr>
-                <th>RegisteredAt</th>
+                <th>Registered At</th>
                 <td>{{ user.registeredAt ? user.registeredAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
         </tbody>

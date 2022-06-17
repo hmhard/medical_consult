@@ -13,9 +13,8 @@ class ConsultationRequestType extends AbstractType
     {
         $builder
             ->add('requestDescription')
-            ->add('requestedAt')
-            ->add('status')
-            ->add('patient')
+          
+            // ->add('patient')
             ->add('caseCategory')
         ;
     }

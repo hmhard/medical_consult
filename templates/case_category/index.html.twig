@@ -3,7 +3,11 @@
 {% block title %}CaseCategory index{% endblock %}
 
 {% block body %}
-    <h1>Case Category List</h1>
+<div class="card">
+<div class="card-header">
+    <div class="card-title">Case Category List</div>
+</div>
+<div class="card-body">
 
     <table class="table">
         <thead>
@@ -33,5 +37,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_case_category_new') }}">Create new</a>
+    <a href="{{ path('app_case_category_new') }}">Register new</a>
 {% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Payment Fee{% endblock %}
+
+{% block body %}
+    <h1>Create new Payment Fee</h1>
+
+    {{ include('payment_fee/_form.html.twig') }}
+
+    <a href="{{ path('app_payment_fee_index') }}">back to list</a>
+{% endblock %}

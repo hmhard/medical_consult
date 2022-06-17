@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Feedback{% endblock %}
+
+{% block body %}
+    <h1>Feedback</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ feedback.id }}</td>
+            </tr>
+            <tr>
+                <th>Content</th>
+                <td>{{ feedback.content }}</td>
+            </tr>
+            <tr>
+                <th>SentAt</th>
+                <td>{{ feedback.sentAt ? feedback.sentAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>IsSeen</th>
+                <td>{{ feedback.isSeen ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_feedback_index') }}">back to list</a>
+
+    <a href="{{ path('app_feedback_edit', {'id': feedback.id}) }}">edit</a>
+
+    {{ include('feedback/_delete_form.html.twig') }}
+{% endblock %}

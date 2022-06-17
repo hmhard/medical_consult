@@ -39,28 +39,52 @@ class PatientRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Patient[] Returns an array of Patient objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Patient[] Returns an array of Patient objects
+     */
+    public function getData($filter = []): array
+    {
+        $qb = $this->createQueryBuilder('p');
+        if (isset($filter['search']) && $filter['search'] != "") {
 
-//    public function findOneBySomeField($value): ?Patient
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+            $names = explode(" ", $filter['search']);
+            if (sizeof($names) == 3) {
+
+                $qb->andWhere('p.firstName = :fname')
+                    ->setParameter('fname', $names[0])
+
+                    ->andWhere('p.middleName = :mname')
+                    ->setParameter('mname', $names[1])
+                    ->andWhere('p.lastName = :lname')
+                    ->setParameter('lname', $names[2]);
+            } else if (sizeof($names) == 2) {
+
+
+                $qb->andWhere('p.firstName = :fname')
+                    ->setParameter('fname', $names[0])
+
+                    ->andWhere('p.middleName = :mname')
+                    ->setParameter('mname', $names[1]);
+            } else if (sizeof($names) == 1 && $names[0]) {
+
+
+                $qb->andWhere("p.firstName LIKE '" . $names[0] . "%' or p.middleName LIKE '" . $names[0] . "%' or p.lastName LIKE '%" . $names[0] . "%'");
+            }
+        }
+
+
+        return $qb->orderBy('p.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    //    public function findOneBySomeField($value): ?Patient
+    //    {
+    //        return $this->createQueryBuilder('p')
+    //            ->andWhere('p.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PaymentFee index{% endblock %}
+
+{% block body %}
+    <h1>Payment Price List </h1>
+
+    <div class="card">
+    <div class="card-header">
+
+    <a class="btn btn-info float-right" href="{{ path('app_payment_fee_new') }}">Create new</a>
+    </div>
+    <div class="card-body">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Category</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Tax Rate</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for payment_fee in payment_fees %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ payment_fee.category }}</td>
+                <td>{{ payment_fee.description }}</td>
+                <td>{{ payment_fee.price }}</td>
+                <td>{{ payment_fee.taxRate }}</td>
+                <td>
+                    {# <a href="{{ path('app_payment_fee_show', {'id': payment_fee.id}) }}">show</a> #}
+                    <a href="{{ path('app_payment_fee_edit', {'id': payment_fee.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    </div>
+
+{% endblock %}

@@ -4,12 +4,18 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['phone'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -42,7 +48,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isActive;
 
-    #[ORM\Column(type: 'string', length: 20, nullable: true)]
+    #[ORM\Column(type: 'string', length: 20, unique: true)]
+    #[Assert\Regex( pattern:'/^(\+2519|09)[0-9]{8}$/',   message:'the phone number  is not valid.')]
     private $phone;
 
     #[ORM\ManyToOne(targetEntity: self::class)]
@@ -50,6 +57,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'datetime')]
     private $registeredAt;
+
+    #[ORM\Column(type: 'boolean')]
+    private $isVerified = false;
+
+    #[ORM\OneToOne(mappedBy: 'user', targetEntity: Patient::class, cascade: ['persist', 'remove'])]
+    private $patient;
+
+    #[ORM\OneToOne(mappedBy: 'user', targetEntity: Doctor::class, cascade: ['persist', 'remove'])]
+    private $doctor;
 
     public function getId(): ?int
     {
@@ -74,7 +90,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
     public function __toString()
     {
-        return $this->firstName." ".$this->middleName;
+        return ucwords($this->firstName." ".$this->middleName);
     }
 
     public function setEmail(string $email): self
@@ -241,6 +257,61 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRegisteredAt(\DateTimeInterface $registeredAt): self
     {
         $this->registeredAt = $registeredAt;
+
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getPatient(): ?Patient
+    {
+        return $this->patient;
+    }
+
+    public function setPatient(?Patient $patient): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($patient === null && $this->patient !== null) {
+            $this->patient->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($patient !== null && $patient->getUser() !== $this) {
+            $patient->setUser($this);
+        }
+
+        $this->patient = $patient;
+
+        return $this;
+    }
+
+    public function getDoctor(): ?Doctor
+    {
+        return $this->doctor;
+    }
+    public function setDoctor(?Doctor $doctor): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($doctor === null && $this->doctor !== null) {
+            $this->doctor->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($doctor !== null && $doctor->getUser() !== $this) {
+            $doctor->setUser($this);
+        }
+
+        $this->doctor = $doctor;
 
         return $this;
     }

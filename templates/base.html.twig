@@ -17,15 +17,7 @@
 		<link rel="stylesheet" href="{{asset('assets/plugins/fontawesome/css/all.min.css')}}"> <link rel="stylesheet" href="{{asset('assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
 
 		<link rel="stylesheet" href="{{asset('assets/dist/css/adminlte.min.css')}}">
-		<link
-		rel="stylesheet" href="{{asset('assets/style.css')}}">
-
-		<!-- Font Awesome JS -->
-		<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
-		<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
-		<link rel="stylesheet" href="{{asset('assets/plugins/select2/css/select2.min.css')}}">
-		<link rel="stylesheet" href="{{asset('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
-		<link rel="stylesheet" href="{{asset('assets/styles/global.scss')}}"> {% block stylesheets %}{% endblock %}
+		<link rel="stylesheet" href="{{asset('assets/style.css')}}"> {% block styles %}{% endblock %}
 		</head>
 
 		<body>
@@ -34,59 +26,88 @@
 				<!-- Sidebar  -->
 				<nav id="sidebar">
 					<div class="sidebar-header">
-						<h4>{{app.user}}</h4>
+						<a href="{{path('app_profile')}}">
+							<h4>{{app.user}}</h4>
+						</a>
 					</div>
 
 					<ul class="list-unstyled components">
 						{# <p><a href="{{app.user.userType.id == 1 ? path('student'):path('home')}}"> Plagiarism checker</a></p> #}
 						{# <li class="active">
-												                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-												                    <ul class="collapse list-unstyled" id="homeSubmenu">
-												                        <li>
-												                            <a href="#">Home 1</a>
-												                        </li>
-												                        <li>
-												                            <a href="#">Home 2</a>
-												                        </li>
-												                        <li>
-												                            <a href="#">Home 3</a>
-												                        </li>
-												                    </ul>
-												                </li>
-																 #}
+																													                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
+																													                    <ul class="collapse list-unstyled" id="homeSubmenu">
+																													                        <li>
+																													                            <a href="#">Home 1</a>
+																													                        </li>
+																													                        <li>
+																													                            <a href="#">Home 2</a>
+																													                        </li>
+																													                        <li>
+																													                            <a href="#">Home 3</a>
+																													                        </li>
+																													                    </ul>
+																													                </li>
+																																	 #}
 
-						{# {% if app.user and (app.user.userType.id == 3 or app.user.userType.id == 2)    %} #}
+							{% if app.user  %}
+
+								<li>
+									<a href="{{path('app_dashboard')}}"> Dashboard</a>
+							</li>
+
+							{% if app.user.usertype.id != 1 %}
+
+								<li>
+									<a href="{{path('app_consultation_request_index')}}">Consultation List</a>
+								</li>
+								<li>
+									<a href="{{path('app_appointment_index')}}">Appointment List</a>
+								</li>
+								{% if app.user.usertype.id == 2 %}
+
+									<li>
+										<a href="{{path('app_patient_index')}}">Patient List</a>
+									</li>
+								{% endif %}
+							{% endif %}
+
+							{% if app.user.usertype.id == 1 %}
+
+								<li>
+									<a href="{{path('app_case_category_index')}}">
+										Case Category</a>
+								</li>
+
+								<li>
+									<a href="{{path('app_doctor_index')}}">Doctor List</a>
+								</li>
+								<li>
+									<a href="{{path('payment_list')}}">Payments</a>
+								</li>
+								<li>
+									<a href="{{path('app_payment_fee_index')}}">Payment Fee List</a>
+								</li>
+								<li>
+									<a href="{{path('app_feedback_index')}}">User Feedbacks</a>
+								</li>
+							<li >
+								 <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">User Management</a>
+								<ul class=" list-unstyled" id="homeSubmenu">
+								
+								<li>
+									<a href="{{path('app_user_index')}}">User List</a>
+								</li>
+								<li>
+									<a href="{{path('app_user_type_index')}}">User Types List</a>
+								</li>
+								</ul>
+								</li>
+							{% endif %}
 
 							<li>
-								<a href="{{path('app_home')}}"> Dashboard</a>
-						</li>
-							<li>
-								<a href="{{path('app_case_category_index')}}"> Case Category</a>
-						</li>
-						<li>
-							<a href="{{path('app_patient_index')}}">Patient List</a>
-						</li>
-
-						{# {% if app.user.usertype.id == 3 %} #}
-
-						<li>
-							<a href="{{path('app_user_index')}}">User List</a>
-						</li>
-						<li>
-							<a href="{{path('app_user_type_index')}}">User Types List</a>
-						</li>
-						{# {% endif %} #}
-						{# {% endif %} #}
-						{% if app.user and app.user.usertype.id == 1 %}
-
-
-							{# <li>
-														                    <a href="{{path('project_index')}}">My Projects</a>
-														                </li> #}
+								<a href="{{path('app_logout')}}">Logout</a>
+							</li>
 						{% endif %}
-						<li>
-							<a href="{{path('app_logout')}}">Logout</a>
-						</li>
 
 
 					</ul>
@@ -103,36 +124,36 @@
 
 
 						{# 
-												            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-												                <div class="container-fluid">
-												
-												                    <button type="button" id="sidebarCollapse" class="btn btn-info">
-												                        <i class="fas fa-align-left"></i>
-												                        <span>Toggle Sidebar</span>
-												                    </button>
-												                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-												                        <i class="fas fa-align-justify"></i>
-												                    </button>
-												
-												                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-												                        <ul class="nav navbar-nav ml-auto">
-												                            <li class="nav-item active">
-												                                <a class="nav-link" href="#">Page</a>
-												                            </li>
-												                            <li class="nav-item">
-												                                <a class="nav-link" href="#">Page</a>
-												                            </li>
-												                            <li class="nav-item">
-												                                <a class="nav-link" href="#">Page</a>
-												                            </li>
-												                            <li class="nav-item">
-												                                <a class="nav-link" href="#">Page</a>
-												                            </li>
-												                        </ul>
-												                    </div>
-												                </div>
-												
-												            </nav> #}
+																													            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+																													                <div class="container-fluid">
+																													
+																													                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+																													                        <i class="fas fa-align-left"></i>
+																													                        <span>Toggle Sidebar</span>
+																													                    </button>
+																													                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+																													                        <i class="fas fa-align-justify"></i>
+																													                    </button>
+																													
+																													                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+																													                        <ul class="nav navbar-nav ml-auto">
+																													                            <li class="nav-item active">
+																													                                <a class="nav-link" href="#">Page</a>
+																													                            </li>
+																													                            <li class="nav-item">
+																													                                <a class="nav-link" href="#">Page</a>
+																													                            </li>
+																													                            <li class="nav-item">
+																													                                <a class="nav-link" href="#">Page</a>
+																													                            </li>
+																													                            <li class="nav-item">
+																													                                <a class="nav-link" href="#">Page</a>
+																													                            </li>
+																													                        </ul>
+																													                    </div>
+																													                </div>
+																													
+																													            </nav> #}
 						<div class="row">
 							<div class="col-md-12">
 
@@ -187,7 +208,7 @@ $('#dteofBirth').datepicker({format: 'mm-dd-yyyy'})
 $(".user_phone").mask("99999?99999");
 });
 				</script>
-				{% block javascripts %}{% endblock %}
+				{% block scripts %}{% endblock %}
 			</body>
 
 		</html>

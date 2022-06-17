@@ -1,0 +1,163 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!
+{% endblock %}
+
+{% block body %}
+
+
+	<div class="content">
+		<div class="container-fluid">
+			<div class="h2  text-center">Welcome
+				<u>{{app.user|upper}}</u>
+			</div>
+			<div class="row">
+				
+
+				{% if app.user.userType.id == 3 %}
+					<div class="col-12 clickable-box col-sm-6 col-md-6" data-href="{{path('app_consultation_request_index')}}">
+						<div class="info-box mb-3">
+							<span class="info-box-icon bg-info elevation-1">
+								<i class="fas fa-list"></i>
+							</span>
+
+							<div class="info-box-content">
+								<span class="info-box-text">My Requests</span>
+								<span class="info-box-number">{{my_requests}}</span>
+							</div>
+							<!-- /.info-box-content -->
+						</div>
+						<!-- /.info-box -->
+					</div>
+					<!-- /.col -->
+					{% endif %}
+				{% if app.user.userType.id == 2 %}
+
+
+					<div class="col-12 clickable-box col-sm-6 col-md-4" data-href="{{path('app_consultation_request_index')}}">
+						<div class="info-box mb-3">
+							<span class="info-box-icon bg-info elevation-1">
+								<i class="fas fa-list"></i>
+							</span>
+
+							<div class="info-box-content">
+								<span class="info-box-text">My Consultations</span>
+								<span class="info-box-number">{{my_consultation}}</span>
+							</div>
+							<!-- /.info-box-content -->
+						</div>
+						<!-- /.info-box -->
+					</div>
+					<!-- /.col -->
+					<div class="col-12 clickable-box col-sm-6 col-md-4"  data-href="{{path('app_appointment_index')}}">
+						<div class="info-box mb-3">
+							<span class="info-box-icon bg-secondary elevation-1">
+								<i class="fas fa-calendar"></i>
+							</span>
+
+							<div class="info-box-content">
+								<span class="info-box-text">Active Appointments</span>
+								<span class="info-box-number">{{active_appointment}}</span>
+							</div>
+							<!-- /.info-box-content -->
+						</div>
+						<!-- /.info-box -->
+					</div>
+					<!-- /.col -->
+
+					<!-- fix for small devices only -->
+					<div class="clearfix hidden-md-up"></div>
+
+					<div class="col-12 clickable-box col-sm-6 col-md-4" data-href="{{path('app_consultation_request_index')}}">
+						<div class="info-box mb-3">
+							<span class="info-box-icon bg-success elevation-1">
+								<i class="fas fa-list-ol"></i>
+							</span>
+
+							<div class="info-box-content">
+								<span class="info-box-text">Active Cases</span>
+								<span class="info-box-number">{{active_cases}}</span>
+							</div>
+							<!-- /.info-box-content -->
+						</div>
+						<!-- /.info-box -->
+					</div>
+					<!-- /.col -->
+					<div class="col-12 clickable-box col-sm-6 col-md-4" data-href="{{path('app_consultation_request_index')}}">
+						<div class="info-box mb-3">
+							<span class="info-box-icon bg-warning elevation-1">
+								<i class="fas fa-list"></i>
+							</span>
+
+							<div class="info-box-content">
+								<span class="info-box-text">Total Consultations</span>
+								<span class="info-box-number">{{total_cases}}</span>
+							</div>
+							<!-- /.info-box-content -->
+						</div>
+						<!-- /.info-box -->
+					</div>
+					<!-- /.col -->
+				{% endif %}
+				{% if  app.user.userType.id == 1 %}
+
+
+					<div class="col-12 clickable-box col-sm-6 col-md-4" data-href="{{path('app_user_index')}}">
+						<div class="info-box mb-3">
+							<span class="info-box-icon bg-success elevation-1">
+								<i class="fas fa-users"></i>
+							</span>
+
+							<div class="info-box-content">
+								<span class="info-box-text">Active Users</span>
+								<span class="info-box-number">{{active_users}}</span>
+							</div>
+							<!-- /.info-box-content -->
+						</div>
+						<!-- /.info-box -->
+					</div>
+					<!-- /.col -->
+					<div class="col-12 clickable-box col-sm-6 col-md-4" data-href="{{path('app_user_index')}}">
+						<div class="info-box mb-3">
+							<span class="info-box-icon bg-secondary elevation-1">
+								<i class="fas fa-users"></i>
+							</span>
+
+							<div class="info-box-content">
+								<span class="info-box-text">Total Users</span>
+								<span class="info-box-number">{{total_users}}</span>
+							</div>
+							<!-- /.info-box-content -->
+						</div>
+						<!-- /.info-box -->
+					</div>
+					<!-- /.col -->
+					<div class="col-12 clickable-box col-sm-6 col-md-4" data-href="{{path('app_doctor_index')}}">
+						<div class="info-box mb-3">
+							<span class="info-box-icon bg-info elevation-1">
+								<i class="fas fa-users"></i>
+							</span>
+
+							<div class="info-box-content">
+								<span class="info-box-text">Total Doctors</span>
+								<span class="info-box-number">{{total_doctors}}</span>
+							</div>
+							<!-- /.info-box-content -->
+						</div>
+						<!-- /.info-box -->
+					</div>
+					<!-- /.col -->
+				{% endif %}
+			</div>
+
+		</div>
+	</div>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+$('.clickable-box').click(function(e) {
+console.log($(this).attr('data-href'));
+window.location.href =$(this).attr('data-href');
+});
+</script>
+{% endblock %}

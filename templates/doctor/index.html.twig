@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Doctor List{% endblock %}
+
+{% block body %}
+
+    <div class="card">
+    <div class="card-header">
+     <a class="btn btn-info float-right" href="{{ path('app_doctor_new') }}">Assign new</a>
+    <div class="card-title">Doctor List</div>
+    </div>
+    <div class="card-body">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Specialization</th>
+                <th>Status</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for doctor in doctors %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ doctor }}</td>
+                <td>{{ doctor.specialization }}</td>
+              
+                <td ><span class="badge badge-info">{{ doctor.status ? "Active":"Inactive" }}</span></td>
+              
+                <td>
+                    {# <a  class="btn btn-primary btn-sm" href="{{ path('app_doctor_show', {'id': doctor.id}) }}">show</a> #}
+                    <a class="btn btn-warning btn-sm" href="{{ path('app_doctor_edit', {'id': doctor.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+   
+{% endblock %}

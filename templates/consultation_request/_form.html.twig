@@ -1,4 +1,6 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_row(form.requestDescription,{"attr":{"rows":7,"placeholder":"write what you feel here.."}}) }}
+{{ form_label(form.caseCategory) }}
+{{ form_widget(form.caseCategory) }}
+<button class="btn btn-success btn-large mx-5 mt-3 px-5 float-right">{{ button_label|default('Consult') }}</button>
 {{ form_end(form) }}

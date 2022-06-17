@@ -23,6 +23,13 @@
 						<td>{{ patient.gender }}</td>
 					</tr>
 					<tr>
+						<th>Phone</th>
+						<td>{{ patient.user.phone }}</td>
+
+						<th>Gender</th>
+						<td>{{ patient.gender }}</td>
+					</tr>
+					<tr>
 						<th>Birth Date</th>
 						<td>{{ patient.birthDate ? patient.birthDate|date('Y-m-d') : '' }}</td>
 
@@ -37,9 +44,10 @@
 		<div class="card-footer">
 			<a class="btn btn-primary float-right" href="{{ path('app_patient_index') }}">back to list</a>
 
+{% if app.user.userType.id == 1 %}
 			<a class="btn btn-warning mx-3 float-right" href="{{ path('app_patient_edit', {'id': patient.id}) }}">edit</a>
-
 			{{ include('patient/_delete_form.html.twig') }}
+{% endif %}
 		</div>
 	</div>
 
@@ -59,9 +67,11 @@
 					
 					<td>
                   
-			<a class="btn btn-secondary mx-3 float-right" href="{{ path('app_consultation_request_show', {'id': case.id}) }}">show</a>
+			<a class="btn btn-secondary mx-3 float-right" href="{{ path('app_consultation_request_show', {'id': case.id}) }}">Consult</a>
 
+{% if app.user.userType.id == 1 %}
 			{{ include('patient/_delete_form.html.twig') }}
+			{% endif %}
 					</td>
 					</tr>
                 {% endfor %}

@@ -1,0 +1,190 @@
+{% block styles %}
+    <link rel="stylesheet" href="{{asset('wizard/css/style.css')}}">
+{% endblock %}
+{% block body %}
+    
+		<div class="wrapper">
+			<div class="image-holder">
+				<img src="{{asset('wizard/images/form-wizard.png')}}" alt="">
+			</div>
+            <form action="" id="registration-form">
+            	<div class="form-header">
+            		<a href="#">#Academic Programs</a>
+            		<h3>Register for the course online</h3>
+            	</div>
+            	<div id="wizard">
+            		<!-- SECTION 1 -->
+	                <h4></h4>
+	                <section>
+	                    <div class="form-row" style="margin-bottom: 26px;">
+	                    	<label for="">
+	                    		First Name
+	                    	</label>
+	                    	<div class="form-holder">
+	                    		{{form_widget(registrationForm.firstName)}}
+								<i class="zmdi zmdi-caret-down"></i>
+	                    	</div>
+	                    </div>	
+	                    <div class="form-row" style="margin-bottom: 26px;">
+	                    	<label for="">
+	                    		Middle Name
+	                    	</label>
+	                    	<div class="form-holder">
+	                    		{{form_widget(registrationForm.middleName)}}
+								<i class="zmdi zmdi-caret-down"></i>
+	                    	</div>
+	                    </div>	
+	                    <div class="form-row" style="margin-bottom: 26px;">
+	                    	<label for="">
+	                    		Last Name
+	                    	</label>
+	                    	<div class="form-holder">
+	                    		{{form_widget(registrationForm.lastName)}}
+								<i class="zmdi zmdi-caret-down"></i>
+	                    	</div>
+	                    </div>	
+	                    <div class="form-row" style="margin-bottom: 26px;">
+	                    	<label for="">
+	                    		Gender
+	                    	</label>
+	                    	<div class="form-holder">
+	                    		{{form_widget(registrationForm.gender)}}
+								<i class="zmdi zmdi-caret-down"></i>
+	                    	</div>
+	                    </div>	
+	                  
+	                   
+	                    <div class="form-row">
+	                    	<label for="">
+	                    		Instructor Username:
+	                    	</label>
+	                    	<div class="form-holder">
+	                    		<input type="text" class="form-control">
+	                    	</div>
+	                    </div>		
+	                </section>
+	                
+					<!-- SECTION 2 -->
+	                <h4></h4>
+	                <section>
+	                    <div class="form-row">
+	                    	<label for="">
+	                    		Date of Birth:
+	                    	</label>
+	                    	<div class="form-holder">
+	                    		<input type="text" class="form-control datepicker-here" data-language='en' data-date-format="dd - mm - yyyy" id="dp1">
+	                    	</div>
+	                    </div>	
+	                    <div class="form-row" style="margin-bottom: 26px;">
+	                    	<label for="">
+	                    		Email
+	                    	</label>
+	                    	<div class="form-holder">
+	                    		{{form_widget(registrationForm.email)}}
+								<i class="zmdi zmdi-caret-down"></i>
+	                    	</div>
+	                    </div>	
+	                    <div class="form-row" style="margin-bottom: 26px;">
+	                    	<label for="">
+	                    		Phone Number:
+	                    	</label>
+	                    	<div class="form-holder">
+	                    		{{form_widget(registrationForm.phone)}}
+								<i class="zmdi zmdi-caret-down"></i>
+	                    	</div>
+	                    </div>	
+	                    <div class="form-row" style="margin-bottom: 26px;">
+	                    	<label for="">
+	                    		Password:
+	                    	</label>
+	                    	<div class="form-holder">
+	                    		{{form_widget(registrationForm.plainPassword)}}
+								<i class="zmdi zmdi-caret-down"></i>
+	                    	</div>
+	                    </div>	
+	                    
+	                    <div class="form-row" style="margin-bottom: 50px;">
+	                    	<label for="">
+	                    		Gender:
+	                    	</label>
+	                    	<div class="form-holder">
+	                    		<div class="checkbox-circle">
+									<label class="male">
+										<input type="radio" name="gender" value="male" checked> Male<br>
+										<span class="checkmark"></span>
+									</label>
+									<label class="female">
+										<input type="radio" name="gender" value="female"> Female<br>
+										<span class="checkmark"></span>
+									</label>
+									<label>
+										<input type="radio" name="gender" value="transgender">Transgender<br>
+										<span class="checkmark"></span>
+									</label>
+								</div>
+	                    	</div>
+	                    </div>		
+	                </section>
+
+	                <!-- SECTION 3 -->
+	                <h4></h4>
+	                <section>
+	                    <div class="form-row">
+	                    	<label for="">
+	                    		Course ID:
+	                    	</label>
+	                    	<div class="form-holder">
+	                    		<input type="text" class="form-control" placeholder="Ex. abc 12345 or abc 1234L">
+	                    	</div>
+	                    </div>	
+	                    <div class="form-row">
+	                    	<label for="">
+	                    		Course Title:
+	                    	</label>
+	                    	<div class="form-holder">
+	                    		<input type="text" class="form-control" placeholder="Ex. Intro to physic">
+	                    	</div>
+	                    </div>	
+                     	<div class="form-row">
+	                    	<label for="">
+	                    		Section(s):
+	                    	</label>
+	                    	<div class="form-holder">
+	                    		<input type="text" class="form-control" placeholder="Ex. 3679 or 33fa, 4295">
+	                    	</div>
+	                    </div>	
+	                    <div class="form-row" style="margin-bottom: 38px">
+	                    	<label for="">
+	                    		Select Teacher:
+	                    	</label>
+	                    	<div class="form-holder">
+	                    		<select name="" id="" class="form-control">
+	                    			<option value="frances meyer" class="option">Frances Meyer</option>
+									<option value="johan lucas" class="option">Johan Lucas</option>
+									<option value="merry linn" class="option">Merry Linn</option>
+								</select>
+								<i class="zmdi zmdi-caret-down"></i>
+	                    	</div>
+	                    </div>	
+	                    <div class="checkbox-circle" style="margin-bottom: 48px;">
+							<label>
+								<input type="checkbox" checked>I agree all statement in Terms & Conditions
+								<span class="checkmark"></span>
+							</label>
+						</div>
+	                </section>
+            	</div>
+            </form>
+		</div>
+
+	{% endblock %}
+    {% block scripts %}
+    <script src="{{asset('wizard/js/jquery-3.3.1.min.js')}}"></script>
+		
+		<!-- JQUERY STEP -->
+		<script src="{{asset('wizard/js/jquery.steps.js')}}"></script>
+
+		<!-- DATE-PICKER -->
+	
+		<script src="{{asset('wizard/js/main.js')}}"></script>
+    {% endblock %}
